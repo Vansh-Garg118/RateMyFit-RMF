@@ -8,10 +8,13 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-url-polyfill/auto";
 import { useGlobalContext } from "../context/GlobalProvider";
 import { signOut } from "../lib/appwrite";
+
+
 const RootLayout = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
 
   if (!isLoading && isLoggedIn) return <Redirect href="/home" />;
+  
   return (
     // <View className="flex-1 items-center justify-center align-middle">
     //   <Text className="text-3xl font-pblack">RateMyOutfit</Text>
@@ -20,7 +23,7 @@ const RootLayout = () => {
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className=" w-full justify-center items-center h-full px-4">
-          <Text className="color-white text-6xl font-bold p-4">RMF</Text>
+          <Text className="color-white text-6xl font-bold p-4">RateMyFit</Text>
           <Image
             source={images.cards}
             className="max-w-[380px] w-full max-h-[300px]"
@@ -34,12 +37,12 @@ const RootLayout = () => {
             handlePress={() => router.push("/sign-in")}
             containerStyles="w-full mt-7"
           />
-          <Link href="/home"><Text className="color-white">Home</Text></Link> 
-          <CustomButton
+          {/* <Link href="/home"><Text className="color-white">Home</Text></Link>  */}
+          {/* <CustomButton
             title="Destroy Session"
             handlePress={signOut}
             containerStyles="mt-7"
-          />
+          /> */}
           {/* remove later */}
         </View>
         

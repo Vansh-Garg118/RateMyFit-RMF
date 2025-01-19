@@ -23,7 +23,7 @@ const Profile = () => {
 
   const fetchPosts = useCallback(() => getUserPosts(user.$id), []);
   const { data: posts } = useAppwrite(fetchPosts);
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <SafeAreaView className="bg-primary h-full">
