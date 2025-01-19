@@ -11,6 +11,9 @@ import { icons } from "../../constants";
 import InfoBox from "../../components/InfoBox";
 import { router } from "expo-router";
 const Profile = () => {
+  
+  const { user, setUser, setIsLoggedIn} = useGlobalContext();
+
   const logOut = async () => {
     await signOut();
     setUser(null)
@@ -18,7 +21,6 @@ const Profile = () => {
     router.replace("/sign-in")
   };
 
-  const { user, setUser, isLoggedIn } = useGlobalContext();
   const fetchPosts = useCallback(() => getUserPosts(user.$id), []);
   const { data: posts } = useAppwrite(fetchPosts);
   console.log(posts);
