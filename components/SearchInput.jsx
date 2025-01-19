@@ -1,12 +1,12 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image,Alert } from "react-native";
 import { React, useState } from "react";
 import { icons } from "../constants";
 import { router, usePathname } from "expo-router";
 
 
-const SearchInput = () => {
+const SearchInput = ({initialQuery}) => {
   const pathname = usePathname();
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery||"");
   return (
     <View className="border-2 border-black-200 w-full h-16 px-4 bg-black-100 rounded-2xl focus:border-secondary-100 items-center flex-row space-x-4">
       <TextInput
@@ -20,8 +20,8 @@ const SearchInput = () => {
         onPress={() => {
           if (!query) {
             return Alert.alert(
-              "missing query",
-              "please input something to search"
+              "Missing query",
+              "Please input something to search"
             );
           }
           if(pathname.startsWith('/search')) router.setParams({query})
