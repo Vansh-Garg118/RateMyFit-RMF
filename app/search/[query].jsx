@@ -18,7 +18,7 @@ const Search = () => {
   const fetchPosts = useCallback(() => searchPosts(query), [query]);
   const { data: posts, refetch } = useAppwrite(fetchPosts);
   
-  console.log(query,posts)
+  // console.log(query,posts)
   
 
   useEffect(() => {
