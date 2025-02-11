@@ -14,7 +14,7 @@ const SignIn = () => {
     email:'',
     password:''
   })
-
+  
 const submit = async () => {
 
     if (!form.email || !form.password) {
@@ -32,7 +32,6 @@ const submit = async () => {
         setUser(result)
         setIsLoggedIn(true)
         //set it to global context...
-
         router.replace("/home");
       } catch (error) {
         Alert.alert("Error", error.message);

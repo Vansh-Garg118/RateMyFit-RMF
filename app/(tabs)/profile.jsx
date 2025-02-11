@@ -91,3 +91,18 @@ const Profile = () => {
 };
 
 export default Profile;
+// import { View, Text } from 'react-native'
+// import React from 'react'
+// import { SafeAreaView } from 'react-native-safe-area-context'
+
+// const profile = () => {
+//   return (
+//      <SafeAreaView className="bg-cyan-00 h-full">
+//           <View className="flex-1 justify-center items-center">
+//             <Text className="text-xl font-bold">Profile</Text>
+//           </View>
+//         </SafeAreaView>
+//   )
+// }
+
+// export default profile
