@@ -13,6 +13,7 @@ export function useThemeColor(
   const theme = useColorScheme() ?? 'light';
   const colorFromProps = props[theme];
 
+  console.log("Checking Colors In HOOKS: ",colorFromProps);
   if (colorFromProps) {
     return colorFromProps;
   } else {
