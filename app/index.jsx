@@ -26,8 +26,8 @@ const RootLayout = () => {
           <Text className="color-white text-6xl font-bold p-4">RateMyFit</Text>
           <Image
             source={images.cards}
-            className="max-w-[380px] w-full max-h-[300px]"
-            resizeMode="contain"
+            className="max-w-[380px] w-full max-h-[420px] rounded-3xl"
+            resizeMode="cover"
           />
           <Text className="color-white text-3xl font-pthin p-6">
             Flaunt your <Text className="color-yellow-500">outfits</Text>

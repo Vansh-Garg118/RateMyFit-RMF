@@ -96,7 +96,7 @@ const home = () => {
   return (
     <SafeAreaView className="bg-purple-200 h-full">
       <View className="flex-1 justify-center items-center">
-        <Text className="text-xl font-bold">Home</Text>
+        <Text className="text-xl font-bold">NEW HOME</Text>
       </View>
     </SafeAreaView>
   );
