@@ -35,7 +35,7 @@ const RootLayout = () => {
           <CustomButton
             title="continue with email"
             handlePress={() => router.push("/sign-in")}
-            containerStyles="w-full mt-7"
+            className="w-full mt-7"
           />
           {/* <Link href="/home"><Text className="color-white">Home</Text></Link>  */}
           {/* <CustomButton
