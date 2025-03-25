@@ -3,6 +3,7 @@ import {
   Text,
   FlatList,
   Image,
+  TouchableOpacity,
   RefreshControl,
   Alert,
 } from "react-native";
@@ -18,6 +19,7 @@ import useAppwrite from "../../lib/useAppwrite";
 import VideoCard from "../../components/VideoCard";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import PostCard from "../../components/PostCard";
+import { router } from "expo-router";
 
 const home = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
@@ -86,42 +88,44 @@ const home = () => {
         }
       /> */}
       <FlatList
-        data={posts}
+        data={posts?.videos?.concat(posts?.images) ?? []}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => <PostCard post={item} />}
-        // refreshControl={
-        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        // }
-        // ListHeaderComponent={() => {
-        //   return (
-        //     <View className="my-6 px-4 space-y-6">
-        //       <View className="justify-between items-start flex-row mb-6">
-        //         <View>
-        //           <Text className="font-pmedium text-sm text-gray-100 ">
-        //             Welcome Back!
-        //           </Text>
-        //           <Text className="text-2xl font-psemibold text-white">
-        //             {user?.username}
-        //           </Text>
-        //         </View>
-        //         <View className="mt-1.5">
-        //           <Image
-        //             className="w-9 h-10"
-        //             resizeMode="contain"
-        //             source={images.logoSmall}
-        //           />
-        //         </View>
-        //       </View>
-        //       <SearchInput />
-        //       <View className="w-full flex-1 pt-5 pb-8">
-        //         <Text className="text-gray-100 text-lg font-pregular mb-3">
-        //           Latest Content
-        //         </Text>
-        //         <Trending posts={latestPosts ?? []} />
-        //       </View>
-        //     </View>
-        //   );
-        // }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        ListHeaderComponent={() => {
+          return (
+            <View className="my-6 px-4 space-y-6">
+              <View className="justify-between items-start flex-row mb-6">
+                <View>
+                  <Text className="font-pmedium text-sm text-gray-100 ">
+                    Welcome Back!
+                  </Text>
+                  <Text className="text-2xl font-psemibold text-white">
+                    {user?.username}
+                  </Text>
+                </View>
+                <View className="mt-1.5 border-red-400">
+                <TouchableOpacity onPress={() => router.push('chatbot')}>
+                  <Image
+                    className="w-9 h-10"
+                    resizeMode="contain"
+                    source={images.logoSmall}
+                  />
+                </TouchableOpacity>
+                </View>
+              </View>
+              <SearchInput />
+              <View className="w-full flex-1 pt-5 pb-8">
+                <Text className="text-gray-100 text-lg font-pregular mb-3">
+                  Latest Content
+                </Text>
+                <Trending posts={latestPosts ?? []} />
+              </View>
+            </View>
+          );
+        }}
       />
       
     </SafeAreaView>

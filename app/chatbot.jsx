@@ -1,47 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { View, Text, TextInput, Button, ScrollView, StyleSheet } from "react-native";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import {G_API_KEY} from "../../.env"
 
-const API_KEY = G_API_KEY; // Replace with your actual Google AI Studio API Key
+const API_KEY = process.env.EXPO_PUBLIC_G_API_KEY// Add your Google AI Studio API Key
 
-console.log(API_KEY)
-
-const trends = () => {
+const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
+  const scrollViewRef = useRef(null);
 
-  const sendMessage = async () => {
+  const sendMessage = useCallback(async () => {
     if (!inputText.trim()) return;
 
-    // Add user message to chat
     const userMessage = { role: "user", content: inputText };
+
+    // Optimized: Clear input **before** API call to prevent lag
+    setInputText("");
+
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      // Initialize Google AI
       const genAI = new GoogleGenerativeAI(API_KEY);
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-      // Send request to Gemini API
       const result = await model.generateContent(inputText);
       const botReply = await result.response.text();
 
-      // Add bot response to chat
-      const botMessage = { role: "bot", content: botReply };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { role: "bot", content: botReply },
+      ]);
     } catch (error) {
       console.error("Error:", error);
-      setMessages((prevMessages) => [...prevMessages, { role: "bot", content: "Error: Unable to get response." }]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { role: "bot", content: "Error: Unable to get response." },
+      ]);
     }
-
-    setInputText("");
-  };
+    
+    // Scroll to bottom after sending a message
+    setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 100);
+  }, [inputText]); // Only re-run when inputText changes
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.chatContainer}>
-        {console.log(messages)}
+      <ScrollView style={styles.chatContainer} ref={scrollViewRef}>
         {messages.map((msg, index) => (
           <View key={index} style={msg.role === "user" ? styles.userMessage : styles.botMessage}>
             <Text>{msg.content}</Text>
@@ -55,6 +57,8 @@ const trends = () => {
           value={inputText}
           onChangeText={setInputText}
           placeholder="Type a message..."
+          returnKeyType="send"
+          onSubmitEditing={sendMessage} // Pressing "Enter" sends the message
         />
         <Button title="Send" onPress={sendMessage} />
       </View>
@@ -71,4 +75,4 @@ const styles = StyleSheet.create({
   input: { flex: 1, borderWidth: 1, borderColor: "#ccc", borderRadius: 5, padding: 8, marginRight: 8 },
 });
 
-export default trends;
+export default ChatBot;

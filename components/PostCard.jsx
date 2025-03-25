@@ -38,7 +38,7 @@ const PostCard = ({
 
   // Toggle Like
   const handleLike = async () => {
-    const updatedLikes = await likePost($id, user.accountId);
+    const updatedLikes = await likePost($id, user.accountId, isVideo);
     setLocalLikes(updatedLikes);
   };
 
@@ -54,6 +54,7 @@ const PostCard = ({
     if (isVideo) {
       return (
         <>
+          {/* {console.log("Rendering Comments:", localComments)} */}
           {play ? (
             <Video
               source={{ uri: video }}
@@ -68,8 +69,8 @@ const PostCard = ({
               }}
             />
           ) : (
-            <TouchableOpacity 
-              className="w-full h-60 rounded-xl mt-3 relative justify-center items-center" 
+            <TouchableOpacity
+              className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
               onPress={() => setPlay(true)}
             >
               <Image
@@ -77,9 +78,9 @@ const PostCard = ({
                 className="w-full h-full rounded-xl"
                 resizeMode="cover"
               />
-              <Image 
-                source={icons.play} 
-                className="w-12 h-12 absolute" 
+              <Image
+                source={icons.play}
+                className="w-12 h-12 absolute"
                 resizeMode="contain"
               />
             </TouchableOpacity>
@@ -89,14 +90,14 @@ const PostCard = ({
     } else {
       // Photo post
       return (
-        <TouchableOpacity 
-          className="w-full h-60 rounded-xl mt-3" 
+        <TouchableOpacity
+          className="w-full h-60 rounded-xl mt-3"
           onPress={() => setModalVisible(true)}
         >
           <Image
             source={{ uri: image }}
             className="w-full h-full rounded-xl"
-            resizeMode="cover"
+            resizeMode="contain"
           />
         </TouchableOpacity>
       );
@@ -109,7 +110,10 @@ const PostCard = ({
       <View className="flex flex-row gap-3 items-start">
         <View className="flex flex-row flex-1 items-center">
           <View className="w-[46px] h-[46px] rounded-lg border border-secondary p-0.5">
-            <Image source={{ uri: avatar }} className="w-full h-full rounded-lg" />
+            <Image
+              source={{ uri: avatar }}
+              className="w-full h-full rounded-lg"
+            />
           </View>
           <View className="ml-3">
             <Text className="text-white text-sm">{title}</Text>
@@ -126,22 +130,34 @@ const PostCard = ({
 
       {/* Likes and Comments */}
       <View className="flex flex-row items-center mt-2 space-x-4">
-        <TouchableOpacity onPress={handleLike} className="flex flex-row items-center space-x-1">
+        <TouchableOpacity
+          onPress={handleLike}
+          className="flex flex-row items-center space-x-1"
+        >
           <Image
-            source={localLikes.includes(user.accountId) ? icons.liked : icons.like}
+            source={
+              localLikes.includes(user.accountId) ? icons.liked : icons.like
+            }
             className="w-5 h-5"
           />
-          <Text className="text-gray-100 text-sm">{localLikes.length} Likes</Text>
+          <Text className="text-gray-100 text-sm">
+            {localLikes.length} Likes
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setModalVisible(true)} className="flex flex-row items-center space-x-1">
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          className="flex flex-row items-center space-x-1"
+        >
           <Image source={icons.comment} className="w-5 h-5" />
-          <Text className="text-gray-100 text-sm">{localComments.length} Comments</Text>
+          <Text className="text-gray-100 text-sm">
+            {localComments.length} Comments
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Modal for Post Details */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
@@ -149,23 +165,71 @@ const PostCard = ({
         <View className="flex-1 bg-black bg-opacity-70 justify-center items-center">
           <View className="w-[90%] bg-[#1e1e1e] rounded-xl p-4">
             <ScrollView>
-              <Image source={{ uri: thumbnail }} className="w-full h-60 rounded-lg" />
+              <Image
+                source={{ uri: thumbnail }}
+                className="w-full h-60 rounded-lg"
+              />
               <Text className="text-white text-lg font-bold mt-2">{title}</Text>
               <Text className="text-gray-100 text-sm mt-1">By {username}</Text>
 
               {/* Comments Section */}
-              <View className="mt-4">
+              {/* <View className="mt-4">
                 <Text className="text-gray-100 text-lg">Comments:</Text>
                 {localComments.length > 0 ? (
                   localComments.map((comment, index) => (
-                    <View key={index} className="mt-2 border-b border-gray-700 pb-2">
-                      <View className="flex flex-row items-center space-x-2">
-                        <Image source={{ uri: comment.avatar }} className="w-6 h-6 rounded-full" />
-                        <Text className="text-gray-100">{comment.user}</Text>
+                    <View
+                      key={index}
+                      className="mt-2 border-b border-gray-700 pb-2 bg-slate-400"
+                    >
+                      <View className="flex flex-row items-center space-x-2 bg-emerald-300">
+                        <Image
+                          source={{ uri: comment.avatar }}
+                          className="w-6 h-6 rounded-full"
+                        />
+                        <Text className="text-white-100">{comment.user}</Text>
                       </View>
-                      <Text className="text-gray-300 text-sm ml-8">{comment.text}</Text>
+                      <Text className="text-red-500 text-sm ml-8">
+                        {comment.text}
+                      </Text>
                     </View>
                   ))
+                ) : (
+                  <Text className="text-gray-500 mt-2">No comments yet</Text>
+                )}
+              </View> */}
+              <View className="mt-4">
+                <Text className="text-gray-100 text-lg">Comments:</Text>
+                {localComments.length > 0 ? (
+                  localComments.map((comment, index) => {
+                    // Parse JSON string back into an object
+                    const parsedComment =
+                      typeof comment === "string"
+                        ? JSON.parse(comment)
+                        : comment;
+
+                    return (
+                      <View
+                        key={index}
+                        className="mt-2 border-b border-gray-700 pb-2"
+                      >
+                        <View className="flex flex-row items-center space-x-2">
+                          <Image
+                            source={{ uri: parsedComment.avatar }}
+                            className="w-6 h-6 rounded-full"
+                          />
+                          <Text className="text-white">
+                            {parsedComment.user}
+                          </Text>
+                        </View>
+                        <Text className="text-gray-300 text-sm ml-8">
+                          {parsedComment.text}
+                        </Text>
+                        <Text className="text-gray-500 text-xs ml-8">
+                          {new Date(parsedComment.createdAt).toLocaleString()}
+                        </Text>
+                      </View>
+                    );
+                  })
                 ) : (
                   <Text className="text-gray-500 mt-2">No comments yet</Text>
                 )}
@@ -199,18 +263,32 @@ const PostCard = ({
   );
 };
 const styles = StyleSheet.create({
-    video: {
-        width: screenWidth*0.95, // Set width to the screen width
-        height: (screenWidth * 9) / 16, // Maintain 16:9 aspect ratio (video height based on width)
-        borderRadius: 33, // Rounded corners
-        marginTop: 12, // Equivalent to "mt-3"
-        backgroundColor: "rgba(255, 255, 255, 0.1)", // Semi-transparent background
-      },
-      image: {
-        width: screenWidth * 0.95,
-        height: screenWidth * 0.95, // Square aspect ratio for photos
-        borderRadius: 33,
-        marginTop: 12,
-      },
-  });
+  title: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#fff",
+    maxWidth: "90%", // Prevents overflowing into other elements
+    overflow: "hidden",
+    textAlign: "left",
+  },
+  username: {
+    fontSize: 12,
+    color: "#aaa",
+    maxWidth: "90%", // Ensures it doesn’t overflow
+    flexWrap: "wrap", // Allows multi-line text
+  },
+  video: {
+    width: screenWidth * 0.95, // Set width to the screen width
+    height: (screenWidth * 9) / 16, // Maintain 16:9 aspect ratio (video height based on width)
+    borderRadius: 33, // Rounded corners
+    marginTop: 12, // Equivalent to "mt-3"
+    backgroundColor: "rgba(255, 255, 255, 0.1)", // Semi-transparent background
+  },
+  image: {
+    width: screenWidth * 0.95,
+    height: screenWidth * 0.95, // Square aspect ratio for photos
+    borderRadius: 33,
+    marginTop: 12,
+  },
+});
 export default PostCard;
