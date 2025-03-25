@@ -166,7 +166,7 @@ const PostCard = ({
           <View className="w-[90%] bg-[#1e1e1e] rounded-xl p-4">
             <ScrollView>
               <Image
-                source={{ uri: thumbnail }}
+                source={{ uri: thumbnail}}
                 className="w-full h-60 rounded-lg"
               />
               <Text className="text-white text-lg font-bold mt-2">{title}</Text>

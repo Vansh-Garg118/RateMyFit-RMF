@@ -63,18 +63,17 @@ const create = () => {
 
     setUploading(true);
     try {
-      if(isVideoPost){
-      await createVideo({
-        ...form,
-        userId: user.$id,
-      });
-    }
-    else{
-      await createPost({
-        ...form,
-        userId:user.$id,
-      })
-    }
+      if (isVideoPost) {
+        await createVideo({
+          ...form,
+          userId: user.$id,
+        });
+      } else {
+        await createPost({
+          ...form,
+          userId: user.$id,
+        });
+      }
 
       Alert.alert("Success", "Post uploaded successfully");
       router.push("/home");
