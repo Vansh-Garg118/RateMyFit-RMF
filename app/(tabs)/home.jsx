@@ -16,7 +16,7 @@ import Trending from "../../components/Trending";
 import EmptyState from "../../components/EmptyState";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
-import VideoCard from "../../components/VideoCard";
+// import VideoCard from "../../components/VideoCard";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import PostCard from "../../components/PostCard";
 import { router } from "expo-router";
@@ -94,6 +94,11 @@ const home = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        ListEmptyComponent={() =>
+          <EmptyState
+            title="No content found"
+            subtitle="Nothing found for this search query"
+          />}
         ListHeaderComponent={() => {
           return (
             <View className="my-6 px-4 space-y-6">
@@ -111,7 +116,7 @@ const home = () => {
                   <Image
                     className="w-9 h-10"
                     resizeMode="contain"
-                    source={images.logoSmall}
+                    source={images.rmfchat}
                   />
                 </TouchableOpacity>
                 </View>
@@ -121,11 +126,14 @@ const home = () => {
                 <Text className="text-gray-100 text-lg font-pregular mb-3">
                   Latest Content
                 </Text>
-                <Trending posts={latestPosts ?? []} />
+                {/* {console.log(latestPosts)} */}
+                <Trending posts={[...(latestPosts?.videos || []), ...(latestPosts?.images || [])]} />
+                <View className="border-red-500"></View>
               </View>
             </View>
           );
-        }}
+        }
+      }
       />
       
     </SafeAreaView>

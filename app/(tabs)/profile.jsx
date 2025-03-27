@@ -1,6 +1,5 @@
 import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
-import React from "react";
-import { useCallback } from "react";
+import { React, useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import EmptyState from "../../components/EmptyState";
 import { getUserPosts, signOut } from "../../lib/appwrite";
@@ -10,9 +9,12 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 import { icons } from "../../constants";
 import InfoBox from "../../components/InfoBox";
 import { router } from "expo-router";
+import PostCard from "../../components/PostCard";
+
+// const { data: posts, refetch } = useAppwrite(getAllPosts);
+
 const Profile = () => {
-  
-  const { user, setUser, setIsLoggedIn} = useGlobalContext();
+  const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
   const logOut = async () => {
     await signOut();
@@ -24,17 +26,18 @@ const Profile = () => {
   const fetchPosts = useCallback(() => getUserPosts(user.$id), []);
   const { data: posts } = useAppwrite(fetchPosts);
   // console.log(posts);
-
+  // {console.log(posts)}
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
-        data={posts} // Fixed the data to match the keyExtractor
+        data={[...(posts?.videos || []), ...(posts?.images || [])]}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <VideoCard
-            video={item}
-            // playingVideoId={playingVideoId}
-            // setPlayingVideoId={setPlayingVideoId}
+          <PostCard
+            post={{
+              ...item,
+              image: item.image || item.thumbnail, // Ensure images are properly set
+            }}
           />
         )}
         ListHeaderComponent={() => {
@@ -64,7 +67,9 @@ const Profile = () => {
               />
               <View className="mt-5 flex-row">
                 <InfoBox
-                  title={posts.length||0}
+                  title={
+                    (posts?.videos?.length || 0) + (posts?.images?.length || 0)
+                  }
                   subtitle="Posts"
                   containerStyles="mr-10"
                   titleStyles="text-xl"

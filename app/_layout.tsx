@@ -38,13 +38,13 @@ const RootLayout = () => {
         screenOptions={{
           headerShown: false,
           contentStyle: {
-            backgroundColor: "#161622", // Replace with your primary color
+            backgroundColor: "#111827", // Replace with your primary color
           },
         }}
       >
         <Stack.Screen
           name="index"
-          options={{ headerShown: false, animation: "fade" }}
+          options={{ headerShown: false, animation: "simple_push" }}
         />
         <Stack.Screen
           name="(auth)"

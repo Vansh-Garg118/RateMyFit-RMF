@@ -1,8 +1,7 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StatusBar } from "react-native";
 import React from "react";
 import { Tabs, Redirect } from "expo-router";
 import { icons } from "../../constants";
-
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
     <View className="items-center justify-center gap-2">
@@ -29,13 +28,13 @@ const TabsLayout = () => {
       <Tabs
         screenOptions={{
           tabBarShowLabel: true,
-          tabBarActiveTintColor:'#33CA7F', // use a better color
-          tabBarInactiveTintColor:'#D6E5E3',
+          tabBarActiveTintColor:'#8E97FD', // use a better color
+          tabBarInactiveTintColor:'#eeeeee',
           tabBarStyle:{
-            backgroundColor:'#424874',
-            borderTopWidth:1,
-            borderTopColor:'#FBD1A2',
-            height:65
+            backgroundColor:'bg-secondary',
+            // borderTopWidth:1,
+            // borderTopColor:'#FBD1A2',
+            height:60,
           }
         }}
       >
@@ -61,7 +60,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.bookmark}
+                icon={icons.camplus}
                 color={color}
                 name="TryOn"
                 focused={focused}
@@ -100,6 +99,7 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
+      <StatusBar backgroundColor="#161622" style="light" />
     </>
   );
 };

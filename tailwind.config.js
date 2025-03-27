@@ -8,11 +8,11 @@ module.exports = {
         xxs: ['0.600rem', '0.750rem'], // 10px font size, 14px line height
       },
       colors: {
-        primary: "#161622",
+        primary: "#111827",
         secondary: {
-          DEFAULT: "#FF9C01",
-          100: "#FF9001",
-          200: "#FF8E01",
+          DEFAULT: "#8E97FD",
+          100: "#8E97FD",
+          200: "#8E97FD",
         },
         black: {
           DEFAULT: "#000",

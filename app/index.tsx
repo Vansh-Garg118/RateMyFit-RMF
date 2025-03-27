@@ -9,12 +9,11 @@ import "react-native-url-polyfill/auto";
 import { useGlobalContext } from "../context/GlobalProvider";
 import { signOut } from "../lib/appwrite";
 
-
 const RootLayout = () => {
   const { isLoading, isLoggedIn } = useGlobalContext();
 
   if (!isLoading && isLoggedIn) return <Redirect href="/home" />;
-  
+
   return (
     // <View className="flex-1 items-center justify-center align-middle">
     //   <Text className="text-3xl font-pblack">RateMyOutfit</Text>
@@ -35,17 +34,20 @@ const RootLayout = () => {
           <CustomButton
             title="continue with email"
             handlePress={() => router.push("/sign-in")}
-            className="w-full mt-7"
+            containerStyles="w-full mt-7"
+            textStyles={undefined}
+            isLoading={undefined}
           />
           {/* <Link href="/home"><Text className="color-white">Home</Text></Link>  */}
           {/* <CustomButton
             title="Destroy Session"
             handlePress={signOut}
             containerStyles="mt-7"
+            textStyles={undefined}
+            isLoading={undefined}
           /> */}
           {/* remove later */}
         </View>
-        
       </ScrollView>
       <StatusBar backgroundColor="#161622" style="light" />
     </SafeAreaView>

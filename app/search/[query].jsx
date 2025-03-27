@@ -10,9 +10,8 @@ import SearchInput from "../../components/SearchInput";
 import EmptyState from "../../components/EmptyState";
 import { searchPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
-import VideoCard from "../../components/VideoCard";
+import PostCard from "../../components/PostCard";
 import { useLocalSearchParams } from "expo-router";
-
 const Search = () => {
   const { query } = useLocalSearchParams();
   const fetchPosts = useCallback(() => searchPosts(query), [query]);
@@ -23,8 +22,6 @@ const Search = () => {
 
   useEffect(() => {
     refetch()
-  
-
   }, [query])
   
  
@@ -39,14 +36,15 @@ const Search = () => {
   return (
     <SafeAreaView className="bg-primary  h-full">
       <FlatList
-        data={posts} // Fixed the data to match the keyExtractor
-        keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => (
-          <VideoCard
-            video={item}
-            // playingVideoId={playingVideoId}
-            // setPlayingVideoId={setPlayingVideoId}
-          />
+         data={[...(posts?.videos || []), ...(posts?.images || [])]}
+         keyExtractor={(item) => item.$id}
+         renderItem={({ item }) => (
+           <PostCard
+             post={{
+               ...item,
+               image: item.image || item.thumbnail, // Ensure images are properly set
+             }}
+           />
         )}
         ListHeaderComponent={() => {
           return (

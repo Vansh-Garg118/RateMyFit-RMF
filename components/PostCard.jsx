@@ -14,6 +14,7 @@ import { useGlobalContext } from "../context/GlobalProvider";
 import { ResizeMode, Video } from "expo-av";
 import { StyleSheet, Dimensions } from "react-native";
 const { width: screenWidth } = Dimensions.get("window");
+
 const PostCard = ({
   post: {
     $id,
@@ -32,63 +33,54 @@ const PostCard = ({
   const [localComments, setLocalComments] = useState(comments);
   const [commentText, setCommentText] = useState("");
   const [play, setPlay] = useState(false);
-
-  // Determine if it's a video post
+  const [imageHeight, setImageHeight] = useState(200); // Default height
   const isVideo = !!video;
 
-  // Toggle Like
   const handleLike = async () => {
     const updatedLikes = await likePost($id, user.accountId, isVideo);
     setLocalLikes(updatedLikes);
   };
 
-  // Submit Comment
   const handleCommentSubmit = async () => {
     if (commentText.trim() === "") return;
     const updatedComments = await addComment($id, commentText, user);
     setLocalComments(updatedComments);
-    setCommentText(""); // Reset input
+    setCommentText("");
   };
 
   const renderMedia = () => {
     if (isVideo) {
-      return (
-        <>
-          {/* {console.log("Rendering Comments:", localComments)} */}
-          {play ? (
-            <Video
-              source={{ uri: video }}
-              style={styles.video}
-              resizeMode={ResizeMode.CONTAIN}
-              useNativeControls
-              shouldPlay
-              onPlaybackStatusUpdate={(status) => {
-                if (status.didJustFinish) {
-                  setPlay(false);
-                }
-              }}
-            />
-          ) : (
-            <TouchableOpacity
-              className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
-              onPress={() => setPlay(true)}
-            >
-              <Image
-                source={{ uri: thumbnail }}
-                className="w-full h-full rounded-xl"
-                resizeMode="cover"
-              />
-              <Image
-                source={icons.play}
-                className="w-12 h-12 absolute"
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          )}
-        </>
+      return play ? (
+        <Video
+          source={{ uri: video }}
+          style={styles.video}
+          resizeMode={ResizeMode.CONTAIN}
+          useNativeControls
+          shouldPlay
+          onPlaybackStatusUpdate={(status) => {
+            if (status.didJustFinish) {
+              setPlay(false);
+            }
+          }}
+        />
+      ) : (
+        <TouchableOpacity
+          className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
+          onPress={() => setPlay(true)}
+        >
+          <Image
+            source={{ uri: thumbnail }}
+            className="w-full h-full rounded-xl"
+            resizeMode="cover"
+          />
+          <Image
+            source={icons.play}
+            className="w-12 h-12 absolute"
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
       );
     } else {
-      // Photo post
       return (
         <TouchableOpacity
           className="w-full h-60 rounded-xl mt-3"
@@ -106,7 +98,6 @@ const PostCard = ({
 
   return (
     <View className="flex flex-col items-start px-4 mb-10">
-      {/* User Info */}
       <View className="flex flex-row gap-3 items-start">
         <View className="flex flex-row flex-1 items-center">
           <View className="w-[46px] h-[46px] rounded-lg border border-secondary p-0.5">
@@ -116,8 +107,10 @@ const PostCard = ({
             />
           </View>
           <View className="ml-3">
-            <Text className="text-white text-sm">{title}</Text>
-            <Text className="text-xs text-gray-100">{username}</Text>
+            <Text className="text-white text-sm font-pbold">{title}</Text>
+            <Text className="text-xs text-gray-100 font-plight">
+              {username}
+            </Text>
           </View>
         </View>
         <TouchableOpacity>
@@ -125,10 +118,8 @@ const PostCard = ({
         </TouchableOpacity>
       </View>
 
-      {/* Media Content */}
       {renderMedia()}
 
-      {/* Likes and Comments */}
       <View className="flex flex-row items-center mt-2 space-x-4">
         <TouchableOpacity
           onPress={handleLike}
@@ -140,7 +131,7 @@ const PostCard = ({
             }
             className="w-5 h-5"
           />
-          <Text className="text-gray-100 text-sm">
+          <Text className="text-gray-100 text-sm font-pregular">
             {localLikes.length} Likes
           </Text>
         </TouchableOpacity>
@@ -149,13 +140,12 @@ const PostCard = ({
           className="flex flex-row items-center space-x-1"
         >
           <Image source={icons.comment} className="w-5 h-5" />
-          <Text className="text-gray-100 text-sm">
+          <Text className="text-gray-100 text-sm font-pregular">
             {localComments.length} Comments
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* Modal for Post Details */}
       <Modal
         animationType="fade"
         transparent={true}
@@ -163,98 +153,92 @@ const PostCard = ({
         onRequestClose={() => setModalVisible(false)}
       >
         <View className="flex-1 bg-black bg-opacity-70 justify-center items-center">
-          <View className="w-[90%] bg-[#1e1e1e] rounded-xl p-4">
-            <ScrollView>
+          <View className="w-[90%] bg-gray-900 rounded-xl p-4">
+            {/* <Image source={{ uri: image||thumbnail }} className="w-full h-96 rounded-md" />
+             */}
+            <View
+              style={{ width: "100%" }}
+              onLayout={(event) => {
+                const { width } = event.nativeEvent.layout;
+                setImageHeight((width * 9) / 16); // Maintain 16:9 aspect ratio
+              }}
+            >
               <Image
-                source={{ uri: thumbnail}}
-                className="w-full h-60 rounded-lg"
+                source={{ uri: image || thumbnail }}
+                style={{ width: "100%", height: imageHeight, borderRadius: 12 }}
+                resizeMode="contain"
               />
-              <Text className="text-white text-lg font-bold mt-2">{title}</Text>
-              <Text className="text-gray-100 text-sm mt-1">By {username}</Text>
+            </View>
+            <Text className="text-white font-pbold text-lg mt-2">{title}</Text>
+            <Text className="text-gray-100 font-plight text-sm mt-1">
+              By {username}
+            </Text>
 
-              {/* Comments Section */}
-              {/* <View className="mt-4">
-                <Text className="text-gray-100 text-lg">Comments:</Text>
-                {localComments.length > 0 ? (
-                  localComments.map((comment, index) => (
-                    <View
-                      key={index}
-                      className="mt-2 border-b border-gray-700 pb-2 bg-slate-400"
-                    >
-                      <View className="flex flex-row items-center space-x-2 bg-emerald-300">
-                        <Image
-                          source={{ uri: comment.avatar }}
-                          className="w-6 h-6 rounded-full"
-                        />
-                        <Text className="text-white-100">{comment.user}</Text>
-                      </View>
-                      <Text className="text-red-500 text-sm ml-8">
-                        {comment.text}
-                      </Text>
-                    </View>
-                  ))
-                ) : (
-                  <Text className="text-gray-500 mt-2">No comments yet</Text>
-                )}
-              </View> */}
-              <View className="mt-4">
-                <Text className="text-gray-100 text-lg">Comments:</Text>
-                {localComments.length > 0 ? (
-                  localComments.map((comment, index) => {
-                    // Parse JSON string back into an object
-                    const parsedComment =
-                      typeof comment === "string"
-                        ? JSON.parse(comment)
-                        : comment;
+            <View className="mt-4">
+              <Text className="text-gray-100 text-lg font-pmedium">
+                Comments:
+              </Text>
+              <View className="max-h-52 overflow-hidden">
+                <ScrollView className="mt-2">
+                  {localComments.length > 0 ? (
+                    localComments.map((comment, index) => {
+                      const parsedComment =
+                        typeof comment === "string"
+                          ? JSON.parse(comment)
+                          : comment;
 
-                    return (
-                      <View
-                        key={index}
-                        className="mt-2 border-b border-gray-700 pb-2"
-                      >
-                        <View className="flex flex-row items-center space-x-2">
-                          <Image
-                            source={{ uri: parsedComment.avatar }}
-                            className="w-6 h-6 rounded-full"
-                          />
-                          <Text className="text-white">
-                            {parsedComment.user}
+                      return (
+                        <View
+                          key={index}
+                          className="p-2 rounded-lg mt-2 border-b border-gray-50 pb-2"
+                        >
+                          <View className="flex flex-row items-center space-x-2">
+                            <Image
+                              source={{ uri: parsedComment.avatar }}
+                              className="w-7 h-7 rounded-full mx-2"
+                            />
+                            <Text className="text-white font-psemibold">
+                              {parsedComment.user}
+                            </Text>
+                          </View>
+                          <Text className="text-gray-300 text-sm ml-8 px-3 py-0.5 font-pregular">
+                            {parsedComment.text}
+                          </Text>
+                          <Text className="text-gray-500 text-xs ml-8 font-plight">
+                            {new Date(parsedComment.createdAt).toLocaleString()}
                           </Text>
                         </View>
-                        <Text className="text-gray-300 text-sm ml-8">
-                          {parsedComment.text}
-                        </Text>
-                        <Text className="text-gray-500 text-xs ml-8">
-                          {new Date(parsedComment.createdAt).toLocaleString()}
-                        </Text>
-                      </View>
-                    );
-                  })
-                ) : (
-                  <Text className="text-gray-500 mt-2">No comments yet</Text>
-                )}
+                      );
+                    })
+                  ) : (
+                    <Text className="text-gray-500 mt-2 font-plight">
+                      No comments yet
+                    </Text>
+                  )}
+                </ScrollView>
               </View>
+            </View>
 
-              {/* Add Comment Input */}
-              <View className="flex flex-row items-center mt-4 border border-gray-700 p-2 rounded-lg">
-                <TextInput
-                  className="flex-1 text-white"
-                  placeholder="Write a comment..."
-                  placeholderTextColor="#888"
-                  value={commentText}
-                  onChangeText={setCommentText}
-                />
-                <TouchableOpacity onPress={handleCommentSubmit}>
-                  <Text className="text-blue-500">Post</Text>
-                </TouchableOpacity>
-              </View>
-            </ScrollView>
+            <View className="flex flex-row items-center mt-4 border border-gray-700 p-2 rounded-lg">
+              <TextInput
+                className="flex-1 text-white font-pregular"
+                placeholder="Write a comment..."
+                placeholderTextColor="#888"
+                value={commentText}
+                onChangeText={setCommentText}
+              />
+              <TouchableOpacity onPress={handleCommentSubmit}>
+                <Text className="text-secondary-100 font-psemibold mx-3">
+                  Post
+                </Text>
+              </TouchableOpacity>
+            </View>
 
             <TouchableOpacity
               onPress={() => setModalVisible(false)}
-              className="bg-red-500 mt-4 py-2 rounded-lg"
+              className="mt-4 py-2 rounded-lg"
             >
-              <Text className="text-white text-center">Close</Text>
+              <Text className="font-pbold text-red-500 text-center">Close</Text>
             </TouchableOpacity>
           </View>
         </View>
