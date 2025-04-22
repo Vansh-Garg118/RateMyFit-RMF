@@ -69,6 +69,21 @@ const TabsLayout = () => {
           }}
         />
         <Tabs.Screen
+          name="trends"
+          options={{
+            title: "Trending",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.camplus}
+                color={color}
+                name="trends"
+                focused={focused}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="create"
           options={{
             title: "Create",
