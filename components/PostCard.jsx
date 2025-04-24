@@ -40,7 +40,8 @@ const PostCard = ({
     const updatedLikes = await likePost($id, user.accountId, isVideo);
     setLocalLikes(updatedLikes);
   };
-
+  {console.log(image)}
+  // {console.log(thumbnail)}
   const handleCommentSubmit = async () => {
     if (commentText.trim() === "") return;
     const updatedComments = await addComment($id, commentText, user);
@@ -73,6 +74,7 @@ const PostCard = ({
             className="w-full h-full rounded-xl"
             resizeMode="cover"
           />
+          {/* {console.log(thumbnail)} */}
           <Image
             source={icons.play}
             className="w-12 h-12 absolute"
@@ -97,7 +99,9 @@ const PostCard = ({
   };
 
   return (
+    
     <View className="flex flex-col items-start px-4 mb-10">
+     
       <View className="flex flex-row gap-3 items-start">
         <View className="flex flex-row flex-1 items-center">
           <View className="w-[46px] h-[46px] rounded-lg border border-secondary p-0.5">
@@ -117,7 +121,7 @@ const PostCard = ({
           <Image source={icons.menu} className="w-5 h-5" />
         </TouchableOpacity>
       </View>
-
+     
       {renderMedia()}
 
       <View className="flex flex-row items-center mt-2 space-x-4">

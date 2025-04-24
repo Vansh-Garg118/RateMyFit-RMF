@@ -112,7 +112,7 @@ const posts = [
       id: '1',
       title: 'Spring Streetwear 2025',
       description: 'Bold prints and oversized silhouettes are dominating the spring streetwear scene in 2025. Think graphic tees, cargo pants, and sneakers. This look pairs vibrant graphics with muted tones to create a bold yet wearable ensemble, perfect for urban settings and fashion-forward individuals looking to make a statement.',
-      image: 'https://images.unsplash.com/photo-1618354691244-01c1e93b71b2',
+      image: 'https://picsum.photos/seed/${50}/300/200',
     },
     {
       id: '2',
@@ -148,25 +148,25 @@ const posts = [
       id: '7',
       title: 'Sustainable Chic',
       description: 'Eco-conscious fashion is not just a movement but a trend. Think upcycled fabrics and slow fashion pieces. Designers are combining sustainability with high fashion aesthetics to encourage mindful consumerism without compromising style.',
-      image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c',
+      image: 'https://picsum.photos/seed/${75}/300/200',
     },
     {
       id: '8',
       title: 'Power Suits with a Twist',
       description: 'Blazers in bright colors and asymmetrical cuts bring a fresh take to traditional power dressing. This new wave of tailoring emphasizes individuality, strength, and femininity with bold colors and unconventional cuts.',
-      image: 'https://images.unsplash.com/photo-1555181937-cb2e8c1c5b30',
+      image: 'https://picsum.photos/seed/${15}/300/200',
     },
     {
       id: '9',
       title: 'Futuristic Accessories',
       description: 'Visors, holographic bags, and metallic belts are making a futuristic splash on runways and street style. These standout pieces act as conversation starters, transforming even basic outfits into high-concept looks.',
-      image: 'https://images.unsplash.com/photo-1556740749-887f6717d7e4',
+      image: 'https://picsum.photos/seed/${53}/300/200',
     },
     {
       id: '10',
       title: 'Cottagecore Comeback',
       description: 'Florals, flowy fabrics, and romantic aesthetics continue to dominate the dreamy world of cottagecore fashion. Inspired by pastoral life, this trend embraces femininity, comfort, and a return to slower, simpler living.',
-      image: 'https://images.unsplash.com/photo-1600185365925-3f8ff3c2a692',
+      image: 'https://picsum.photos/seed/${85}/300/200',
     },
 ];
   

@@ -88,7 +88,7 @@ const parseChatbotResponse = (response) => {
       });
 
       if (result.canceled || !result.assets || !result.assets[0].uri) {
-        console.log("No image selected");
+        // console.log("No image selected");
         return;
       }
 
@@ -109,7 +109,7 @@ const parseChatbotResponse = (response) => {
         mimeType: result.assets[0].mimeType || "image/jpeg",
       });
 
-      console.log("image selected")
+      // console.log("image selected")
       // Snackbar.show({
       //   text: "Image selected successfully!",
       //   duration: Snackbar.LENGTH_SHORT,
