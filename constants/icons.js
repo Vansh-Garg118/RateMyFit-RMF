@@ -12,6 +12,9 @@ import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
 import camplus from "../assets/icons/camplus.png"
+import like from "../assets/icons/like.png"
+import liked from "../assets/icons/liked.png"
+import comment from "../assets/icons/comment.png"
 export default {
   play,
   bookmark,
@@ -27,4 +30,7 @@ export default {
   eyeHide,
   eye,
   camplus,
+  like,
+  liked,
+  comment,
 };

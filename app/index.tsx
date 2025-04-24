@@ -39,13 +39,13 @@ const RootLayout = () => {
             isLoading={undefined}
           />
           {/* <Link href="/home"><Text className="color-white">Home</Text></Link>  */}
-          {/* <CustomButton
+          <CustomButton
             title="Destroy Session"
             handlePress={signOut}
             containerStyles="mt-7"
             textStyles={undefined}
             isLoading={undefined}
-          /> */}
+          />
           {/* remove later */}
         </View>
       </ScrollView>

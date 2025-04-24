@@ -11,7 +11,6 @@ import { Text } from "react-native";
 // import { Alert } from "react-native";
 const API_KEY = process.env.EXPO_PUBLIC_G_API_KEY;
 
-
 const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
@@ -20,65 +19,65 @@ const ChatBot = () => {
 
   // Function to select an image
 
-// Function to parse chatbot response into formatted JSX
-const parseChatbotResponse = (response) => {
-  const lines = response.split("\n").filter((line) => line.trim() !== ""); // Remove empty lines
-  const parsedElements = [];
+  // Function to parse chatbot response into formatted JSX
+  const parseChatbotResponse = (response) => {
+    const lines = response.split("\n").filter((line) => line.trim() !== ""); // Remove empty lines
+    const parsedElements = [];
 
-  lines.forEach((line, index) => {
-    if (line.startsWith("Recommendations:")) {
-      // Section Heading
-      parsedElements.push(
-        <Text key={index} className="font-pbold text-lg text-white mt-4">
-          Recommendations:
-        </Text>
-      );
-    } else if (line.match(/^\d+\./)) {
-      // Bold Numbered Points (e.g., "1. Fit is Key:")
-      const parts = line.split(":");
-      parsedElements.push(
-        <View key={index} className="mt-2">
-          <Text className="font-pbold text-white">
-            {parts[0]}:{" "}
-            <Text className="font-pregular text-gray-300">
-              {parts.slice(1).join(":").trim()}
-            </Text>
+    lines.forEach((line, index) => {
+      if (line.startsWith("Recommendations:")) {
+        // Section Heading
+        parsedElements.push(
+          <Text key={index} className="font-pbold text-lg text-white mt-4">
+            Recommendations:
           </Text>
-        </View>
-      );
-    } else {
-      // Handling **Semi-Bold** and *Bold* within a sentence
-      let formattedText = [];
-      let splitText = line.split(/(\*\*.*?\*\*|\*.*?\*)/g);
-
-      splitText.forEach((segment, i) => {
-        if (segment.startsWith("**") && segment.endsWith("**")) {
-          formattedText.push(
-            <Text key={i} className="font-psemibold">
-              {segment.replace(/\*\*/g, "").trim()}
+        );
+      } else if (line.match(/^\d+\./)) {
+        // Bold Numbered Points (e.g., "1. Fit is Key:")
+        const parts = line.split(":");
+        parsedElements.push(
+          <View key={index} className="mt-2">
+            <Text className="font-pbold text-white">
+              {parts[0]}:{" "}
+              <Text className="font-pregular text-gray-300">
+                {parts.slice(1).join(":").trim()}
+              </Text>
             </Text>
-          );
-        } else if (segment.startsWith("*") && segment.endsWith("*")) {
-          formattedText.push(
-            <Text key={i} className="font-pbold">
-              {segment.replace(/\*/g, "").trim()}
-            </Text>
-          );
-        } else {
-          formattedText.push(<Text key={i}>{segment.trim()}</Text>);
-        }
-      });
+          </View>
+        );
+      } else {
+        // Handling **Semi-Bold** and *Bold* within a sentence
+        let formattedText = [];
+        let splitText = line.split(/(\*\*.*?\*\*|\*.*?\*)/g);
 
-      parsedElements.push(
-        <Text key={index} className="font-pregular text-white">
-          {formattedText}
-        </Text>
-      );
-    }
-  });
+        splitText.forEach((segment, i) => {
+          if (segment.startsWith("**") && segment.endsWith("**")) {
+            formattedText.push(
+              <Text key={i} className="font-psemibold">
+                {segment.replace(/\*\*/g, "").trim()}
+              </Text>
+            );
+          } else if (segment.startsWith("*") && segment.endsWith("*")) {
+            formattedText.push(
+              <Text key={i} className="font-pbold">
+                {segment.replace(/\*/g, "").trim()}
+              </Text>
+            );
+          } else {
+            formattedText.push(<Text key={i}>{segment.trim()}</Text>);
+          }
+        });
 
-  return <View className="p-4">{parsedElements}</View>;
-};
+        parsedElements.push(
+          <Text key={index} className="font-pregular text-white">
+            {formattedText}
+          </Text>
+        );
+      }
+    });
+
+    return <View className="p-4">{parsedElements}</View>;
+  };
 
   const pickImage = async () => {
     try {
@@ -167,7 +166,6 @@ const parseChatbotResponse = (response) => {
   //     ]);
   //   }
 
-  
   // Function to send message
   const sendMessage = useCallback(async () => {
     if (!inputText.trim() && !selectedImage) return;
@@ -215,16 +213,24 @@ const parseChatbotResponse = (response) => {
     }
 
     // Scroll to latest message
-    setTimeout(() => scrollViewRef.current?.scrollToEnd({ animated: true }), 100);
+    setTimeout(
+      () => scrollViewRef.current?.scrollToEnd({ animated: true }),
+      100
+    );
   }, [inputText, selectedImage]);
 
   return (
-    <View className="flex-1 bg-black-900 px-4 py-6">
-       <View className="items-center mb-4">
-      <Image source={images.logo} className="w-24 h-10" resizeMode="contain" />
-    </View>
+    <View className="flex-1 bg-black-900 px-4 m-2">
+      <View className="items-center ">
+        <Image
+          source={images.logo}
+          className="w-34 h-12 mb-2"
+          resizeMode="contain"
+        />
+      </View>
       {/* Chat Messages */}
-      <ScrollView
+      {messages.length!=0?
+      (<ScrollView
         ref={scrollViewRef}
         className="flex-1 mb-4"
         contentContainerStyle={{ paddingBottom: 20 }}
@@ -233,22 +239,50 @@ const parseChatbotResponse = (response) => {
           <View
             key={index}
             className={`p-2 my-2 rounded-2xl max-w-[80%] ${
-              msg.role === "user" ? "bg-secondary self-end" : "bg-gray-800 self-start"
+              msg.role === "user"
+                ? "bg-secondary self-end"
+                : "bg-gray-800 self-start"
             }`}
           >
             {msg.image && (
-              <Image source={{ uri: msg.image }} className="w-60 h-60 rounded-lg mb-2" />
+              <Image
+                source={{ uri: msg.image }}
+                className="w-60 h-60 rounded-lg mb-2"
+              />
             )}
             {/* Use the parsing function for bot responses */}
-            {msg.role === "bot" ? parseChatbotResponse(msg.content) : (
+            {msg.role === "bot" ? (
+              parseChatbotResponse(msg.content)
+            ) : (
               <Text className="text-white font-pregular">{msg.content}</Text>
             )}
           </View>
         ))}
       </ScrollView>
+):(<View className="flex-1 justify-center items-center">
+  <Text className="text-white text-3xl font-plight text-center">Let's Get Started</Text>
+  <Text className="font-pextralight text-clip text-secondary-200 text-lg text-center mt-3 mx-6">I'm a model trained to help you with your fashion needs.</Text>
+  <Text className="font-pextralight text-clip text-gray-100 text-xs text-center mt-3 mx-6">No chats are saved to protect your privacy🔒.</Text>
+</View>
+)}
+      {selectedImage ? (
+  <View className="relative mt-4">
+    <Image
+      source={{ uri: selectedImage.uri }}
+      className="w-20 h-20 rounded-lg"
+      resizeMode="cover"
+    />
+    <TouchableOpacity
+      onPress={() => setSelectedImage(null)} // Removes the selected image
+      className="absolute top-2 right-2 bg-gray-800 p-2 rounded-full"
+    >
+      <Text className="text-white font-bold">X</Text>
+    </TouchableOpacity>
+  </View>
+) : null}
 
       {/* Input Field & Send Button */}
-      <View className="flex-row items-center p-2 rounded-sm bg-gray-900">
+      <View className="flex-row items-center  rounded-sm bg-gray-900">
         <TouchableOpacity onPress={pickImage} className="mr-3 mt-3 rounded-2xl">
           <Image source={icons.camplus} className="w-7 h-7 tint-white" />
         </TouchableOpacity>

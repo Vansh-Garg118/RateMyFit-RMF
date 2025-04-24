@@ -35,8 +35,12 @@ const home = () => {
     setRefreshing(false);
   };
 
+  
+  // {console.log(posts)}
   return (
+    
     <SafeAreaView className="bg-primary  h-full">
+      
       {/* <FlatList
         data={posts} // Fixed the data to match the keyExtractor
         keyExtractor={(item) => item.$id}
@@ -87,9 +91,14 @@ const home = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       /> */}
+      {/* {console.log(posts)} */}
+      {/* {console.log("hi")} */}
       <FlatList
-        data={posts?.videos?.concat(posts?.images) ?? []}
+        // data={posts?.videos?.concat(posts?.images) ?? []}
+        data={posts ?? []}
         keyExtractor={(item) => item.$id}
+        
+        // renderItem={({ item }) => <PostCard post={item} />}
         renderItem={({ item }) => <PostCard post={item} />}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -126,7 +135,6 @@ const home = () => {
                 <Text className="text-gray-100 text-lg font-pregular mb-3">
                   Latest content
                 </Text>
-                {/* {console.log(latestPosts)} */}
                 <Trending posts={[...(latestPosts?.videos || []), ...(latestPosts?.images || [])]} />
                 <View className="border-red-500"></View>
               </View>

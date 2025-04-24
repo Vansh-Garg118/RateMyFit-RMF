@@ -71,15 +71,15 @@ const Profile = () => {
                     (posts?.videos?.length || 0) + (posts?.images?.length || 0)
                   }
                   subtitle="Posts"
-                  containerStyles="mr-10"
+                  // containerStyles="mr-10"
                   titleStyles="text-xl"
                 />
-                <InfoBox
+                {/* <InfoBox
                   title="6"
                   subtitle="Followers"
                   // containerStyles="mt-5"
                   titleStyles="text-xl"
-                />
+                /> */}
               </View>
             </View>
           );

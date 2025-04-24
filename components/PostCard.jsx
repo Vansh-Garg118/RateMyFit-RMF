@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,18 +7,21 @@ import {
   Modal,
   ScrollView,
   TextInput,
+  StyleSheet,
+  Dimensions,
 } from "react-native";
+import { ResizeMode, Video } from "expo-av";
 import { icons } from "../constants";
 import { likePost, addComment } from "../lib/appwrite";
 import { useGlobalContext } from "../context/GlobalProvider";
-import { ResizeMode, Video } from "expo-av";
-import { StyleSheet, Dimensions } from "react-native";
-const { width: screenWidth } = Dimensions.get("window");
+
+const screenWidth = Dimensions.get("window").width;
 
 const PostCard = ({
   post: {
     $id,
     title,
+    desc,
     image,
     thumbnail,
     video,
@@ -33,20 +36,56 @@ const PostCard = ({
   const [localComments, setLocalComments] = useState(comments);
   const [commentText, setCommentText] = useState("");
   const [play, setPlay] = useState(false);
-  const [imageHeight, setImageHeight] = useState(200); // Default height
+  const [mediaDimensions, setMediaDimensions] = useState({ width: screenWidth * 0.9, height: screenWidth * 9 / 16 });
+
   const isVideo = !!video;
+  
+  // Determine actual image dimensions
+  useEffect(() => {
+    const uri = isVideo ? thumbnail : image;
+    if (uri) {
+      Image.getSize(uri, (w, h) => {
+        const scale = screenWidth * 0.9 / w;
+        setMediaDimensions({
+          width: screenWidth * 0.9,
+          height: h * scale,
+        });
+      });
+    }
+  }, [image, thumbnail, isVideo]);
 
   const handleLike = async () => {
     const updatedLikes = await likePost($id, user.accountId, isVideo);
     setLocalLikes(updatedLikes);
   };
-  {console.log(image)}
-  // {console.log(thumbnail)}
+
   const handleCommentSubmit = async () => {
     if (commentText.trim() === "") return;
-    const updatedComments = await addComment($id, commentText, user);
+
+    const isVideoPost = !!video; // If there is a video URL, it's a video post.
+
+    const updatedComments = await addComment($id, commentText, user, isVideoPost);
     setLocalComments(updatedComments);
     setCommentText("");
+  };
+
+  const formatTimestamp = (timestamp) => {
+    const now = new Date();
+    const date = new Date(timestamp);
+    const seconds = Math.floor((now - date) / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(months / 12);
+
+    if (seconds < 60) return "just now";
+    if (minutes < 60) return `${minutes} minute${minutes !== 1 ? "s" : ""} ago`;
+    if (hours < 24) return `${hours} hour${hours !== 1 ? "s" : ""} ago`;
+    if (days < 2) return "yesterday";
+    if (days < 30) return `${days} day${days !== 1 ? "s" : ""} ago`;
+    if (months < 12) return `${months} month${months !== 1 ? "s" : ""} ago`;
+    return `${years} year${years !== 1 ? "s" : ""} ago`;
   };
 
   const renderMedia = () => {
@@ -54,229 +93,246 @@ const PostCard = ({
       return play ? (
         <Video
           source={{ uri: video }}
-          style={styles.video}
+          style={[styles.media, mediaDimensions]}
           resizeMode={ResizeMode.CONTAIN}
           useNativeControls
           shouldPlay
           onPlaybackStatusUpdate={(status) => {
-            if (status.didJustFinish) {
-              setPlay(false);
-            }
+            if (status.didJustFinish) setPlay(false);
           }}
         />
       ) : (
         <TouchableOpacity
-          className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
+          style={[styles.media, mediaDimensions]}
           onPress={() => setPlay(true)}
         >
-          <Image
-            source={{ uri: thumbnail }}
-            className="w-full h-full rounded-xl"
-            resizeMode="cover"
-          />
-          {/* {console.log(thumbnail)} */}
-          <Image
-            source={icons.play}
-            className="w-12 h-12 absolute"
-            resizeMode="contain"
-          />
+          <Image source={{ uri: thumbnail }} style={[styles.media, mediaDimensions]} resizeMode="contain" />
+          <View style={styles.playIcon}>
+            <Image source={icons.play} style={styles.playImage} />
+          </View>
         </TouchableOpacity>
       );
     } else {
       return (
-        <TouchableOpacity
-          className="w-full h-60 rounded-xl mt-3"
-          onPress={() => setModalVisible(true)}
-        >
-          <Image
-            source={{ uri: image }}
-            className="w-full h-full rounded-xl"
-            resizeMode="contain"
-          />
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Image source={{ uri: image }} style={[styles.media, mediaDimensions]} resizeMode="contain" />
         </TouchableOpacity>
       );
     }
   };
 
   return (
-    
-    <View className="flex flex-col items-start px-4 mb-10">
-     
-      <View className="flex flex-row gap-3 items-start">
-        <View className="flex flex-row flex-1 items-center">
-          <View className="w-[46px] h-[46px] rounded-lg border border-secondary p-0.5">
-            <Image
-              source={{ uri: avatar }}
-              className="w-full h-full rounded-lg"
-            />
-          </View>
-          <View className="ml-3">
-            <Text className="text-white text-sm font-pbold">{title}</Text>
-            <Text className="text-xs text-gray-100 font-plight">
-              {username}
-            </Text>
+    <View style={styles.cardWrapper}>
+      <View style={styles.card}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Image source={{ uri: avatar }} style={styles.avatar} />
+          <View style={styles.headerText}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.username}>@{username}</Text>
           </View>
         </View>
-        <TouchableOpacity>
-          <Image source={icons.menu} className="w-5 h-5" />
-        </TouchableOpacity>
-      </View>
-     
-      {renderMedia()}
 
-      <View className="flex flex-row items-center mt-2 space-x-4">
-        <TouchableOpacity
-          onPress={handleLike}
-          className="flex flex-row items-center space-x-1"
-        >
-          <Image
-            source={
-              localLikes.includes(user.accountId) ? icons.liked : icons.like
-            }
-            className="w-5 h-5"
-          />
-          <Text className="text-gray-100 text-sm font-pregular">
-            {localLikes.length} Likes
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => setModalVisible(true)}
-          className="flex flex-row items-center space-x-1"
-        >
-          <Image source={icons.comment} className="w-5 h-5" />
-          <Text className="text-gray-100 text-sm font-pregular">
-            {localComments.length} Comments
-          </Text>
-        </TouchableOpacity>
+        {/* Media */}
+        {renderMedia()}
+
+        {/* Description */}
+        {desc && <Text style={styles.description}>{desc}</Text>}
+
+        {/* Likes & Comments */}
+        <View style={styles.actions}>
+          <TouchableOpacity onPress={handleLike} style={styles.actionItem}>
+            <Image
+              source={
+                localLikes.includes(user.accountId) ? icons.liked : icons.like
+              }
+              style={styles.actionIcon}
+            />
+            <Text style={styles.actionText}>{localLikes.length}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.actionItem}>
+            <Image source={icons.comment} style={styles.actionIcon} />
+            <Text style={styles.actionText}>{localComments.length}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View className="flex-1 bg-black bg-opacity-70 justify-center items-center">
-          <View className="w-[90%] bg-gray-900 rounded-xl p-4">
-            {/* <Image source={{ uri: image||thumbnail }} className="w-full h-96 rounded-md" />
-             */}
-            <View
-              style={{ width: "100%" }}
-              onLayout={(event) => {
-                const { width } = event.nativeEvent.layout;
-                setImageHeight((width * 9) / 16); // Maintain 16:9 aspect ratio
-              }}
-            >
-              <Image
-                source={{ uri: image || thumbnail }}
-                style={{ width: "100%", height: imageHeight, borderRadius: 12 }}
-                resizeMode="contain"
-              />
-            </View>
-            <Text className="text-white font-pbold text-lg mt-2">{title}</Text>
-            <Text className="text-gray-100 font-plight text-sm mt-1">
-              By {username}
-            </Text>
+      {/* Modal */}
+      <Modal visible={modalVisible} animationType="fade" transparent onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalOverlay}>
+          <ScrollView
+            contentContainerStyle={styles.modalCard}
+            showsVerticalScrollIndicator={false}
+          >
+            {renderMedia()}
+            <Text style={styles.modalTitle}>{title}</Text>
+            {desc && <Text style={styles.modalDesc}>{desc}</Text>}
+            <Text style={styles.modalUsername}>@{username}</Text>
 
-            <View className="mt-4">
-              <Text className="text-gray-100 text-lg font-pmedium">
-                Comments:
-              </Text>
-              <View className="max-h-52 overflow-hidden">
-                <ScrollView className="mt-2">
-                  {localComments.length > 0 ? (
-                    localComments.map((comment, index) => {
-                      const parsedComment =
-                        typeof comment === "string"
-                          ? JSON.parse(comment)
-                          : comment;
-
-                      return (
-                        <View
-                          key={index}
-                          className="p-2 rounded-lg mt-2 border-b border-gray-50 pb-2"
-                        >
-                          <View className="flex flex-row items-center space-x-2">
-                            <Image
-                              source={{ uri: parsedComment.avatar }}
-                              className="w-7 h-7 rounded-full mx-2"
-                            />
-                            <Text className="text-white font-psemibold">
-                              {parsedComment.user}
-                            </Text>
-                          </View>
-                          <Text className="text-gray-300 text-sm ml-8 px-3 py-0.5 font-pregular">
-                            {parsedComment.text}
-                          </Text>
-                          <Text className="text-gray-500 text-xs ml-8 font-plight">
-                            {new Date(parsedComment.createdAt).toLocaleString()}
-                          </Text>
+            {/* Comments */}
+            <View>
+              {localComments.length
+                ? localComments.map((comment, i) => {
+                    const parsed = typeof comment === "string" ? JSON.parse(comment) : comment;
+                    return (
+                      <View key={i} style={styles.commentBlock}>
+                        <View style={styles.commentHeader}>
+                          <Image source={{ uri: parsed.avatar }} style={styles.commentAvatar} />
+                          <Text style={styles.commentUser}>{parsed.user}</Text>
                         </View>
-                      );
-                    })
-                  ) : (
-                    <Text className="text-gray-500 mt-2 font-plight">
-                      No comments yet
-                    </Text>
-                  )}
-                </ScrollView>
-              </View>
+                        <Text style={styles.commentText}>{parsed.text}</Text>
+                        <Text style={styles.commentTime}>{formatTimestamp(parsed.createdAt)}</Text>
+                      </View>
+                    );
+                  })
+                : <Text style={styles.noComments}>No comments yet.</Text>}
             </View>
 
-            <View className="flex flex-row items-center mt-4 border border-gray-700 p-2 rounded-lg">
+            {/* Comment Input */}
+            <View style={styles.commentInputRow}>
               <TextInput
-                className="flex-1 text-white font-pregular"
                 placeholder="Write a comment..."
                 placeholderTextColor="#888"
                 value={commentText}
                 onChangeText={setCommentText}
+                style={styles.commentInput}
               />
               <TouchableOpacity onPress={handleCommentSubmit}>
-                <Text className="text-secondary-100 font-psemibold mx-3">
-                  Post
-                </Text>
+                <Text style={styles.postButton}>Post</Text>
               </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              className="mt-4 py-2 rounded-lg"
-            >
-              <Text className="font-pbold text-red-500 text-center">Close</Text>
+            {/* Close */}
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text style={styles.closeButton}>Close</Text>
             </TouchableOpacity>
-          </View>
+          </ScrollView>
         </View>
       </Modal>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#fff",
-    maxWidth: "90%", // Prevents overflowing into other elements
+  cardWrapper: { paddingHorizontal: 16, marginBottom: 24 },
+  card: {
+    backgroundColor: "#1E1E2D",
+    borderRadius: 20,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  header: { flexDirection: "row", alignItems: "center", marginBottom: 12 },
+  avatar: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, borderColor: "#6c63ff" },
+  headerText: { marginLeft: 12, flex: 1 },
+  title: { color: "#fff", fontSize: 16, fontWeight: "600" },
+  username: { color: "#aaa", fontSize: 13 },
+  menuIcon: { width: 16, height: 16 },
+  media: {
+    borderRadius: 16,
     overflow: "hidden",
-    textAlign: "left",
-  },
-  username: {
-    fontSize: 12,
-    color: "#aaa",
-    maxWidth: "90%", // Ensures it doesn’t overflow
-    flexWrap: "wrap", // Allows multi-line text
-  },
-  video: {
-    width: screenWidth * 0.95, // Set width to the screen width
-    height: (screenWidth * 9) / 16, // Maintain 16:9 aspect ratio (video height based on width)
-    borderRadius: 33, // Rounded corners
-    marginTop: 12, // Equivalent to "mt-3"
-    backgroundColor: "rgba(255, 255, 255, 0.1)", // Semi-transparent background
-  },
-  image: {
-    width: screenWidth * 0.95,
-    height: screenWidth * 0.95, // Square aspect ratio for photos
-    borderRadius: 33,
+    alignSelf: "center",
+    backgroundColor: "#000",
     marginTop: 12,
   },
+  playIcon: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    opacity: 10,
+    transform: [{ translateX: -14 }, { translateY: -14 }],
+    backgroundColor: "#000a",
+    padding: 10,
+    borderRadius: 50,
+  },
+  playImage: { width: 28, height: 28 },
+  description: { marginTop: 10, color: "#ccc", fontSize: 15, lineHeight: 20 },
+  actions: { flexDirection: "row", justifyContent: "space-between", marginTop: 14 },
+  actionItem: { flexDirection: "row", alignItems: "center", gap: 6 },
+  actionIcon: { width: 30, height: 30 },
+  actionText: { color: "#ccc", fontSize: 14 },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "#000c",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+  },
+  modalCard: {
+    width: "90%",
+    backgroundColor: "#1a1a1a",
+    borderRadius: 20,
+    padding: 6,
+    flexGrow: 1,
+    justifyContent: "flex-start",
+  },
+  modalTitle: { color: "#fff", fontSize: 18, fontWeight: "600", marginTop: 16 },
+  modalDesc: { color: "#aaa", marginTop: 4, fontSize: 14 },
+  modalUsername: { color: "#666", fontSize: 12, marginTop: 2 },
+  commentScroll: { marginTop: 12, maxHeight: 150 },
+  commentBlock: {
+    flexDirection: "column",
+    backgroundColor: "#2a2a2a",
+    borderRadius: 12,
+    padding: 10,
+    marginBottom: 12,
+  },
+  commentHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+  commentAvatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    marginRight: 8,
+  },
+  commentUser: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  commentText: {
+    color: "#ddd",
+    fontSize: 13,
+    marginLeft: 32, // aligns under username if avatar is 24 + 8 margin
+    marginBottom: 4,
+  },
+  commentTime: {
+    color: "#888",
+    fontSize: 11,
+    marginLeft: 32,
+  },
+  noComments: { textAlign: "center", color: "#666", fontSize: 14 },
+  commentInputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+    borderWidth: 1,
+    borderColor: "#333",
+    borderRadius: 50,
+    paddingHorizontal: 12,
+  },
+  commentInput: {
+    flex: 1,
+    color: "#fff",
+    paddingVertical: 6,
+  },
+  postButton: {
+    color: "#6c63ff",
+    fontWeight: "600",
+    paddingHorizontal: 8,
+  },
+  closeButton: {
+    textAlign: "center",
+    color: "#ff5a5f",
+    fontWeight: "600",
+    marginTop: 16,
+  },
 });
+
 export default PostCard;
