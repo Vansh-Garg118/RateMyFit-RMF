@@ -90,3 +90,5 @@ Follow these steps to run the project locally on your machine:
 For queries, suggestions, or feedback:  
 📧 [tanishqtoliya@gmail.com]  
 📧 [vanshgarg25804@gmail.com] 
+
+![image](https://github.com/user-attachments/assets/903954a5-7459-4ed7-ae6b-39e55454a0fc)
