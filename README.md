@@ -88,7 +88,6 @@ Let me know if you want help generating the .env.sample structure too!
 
 ## 🔗 Contact
 
-Project by students of CSBB 352  
 For queries, suggestions, or feedback:  
 📧 [tanishqtoliya@gmail.com]  
 📧 [vanshgarg25804@gmail.com] 
