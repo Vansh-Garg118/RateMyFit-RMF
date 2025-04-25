@@ -84,7 +84,6 @@ Follow these steps to run the project locally on your machine:
 
 ---
 
-Let me know if you want help generating the .env.sample structure too!
 
 ## 🔗 Contact
 
