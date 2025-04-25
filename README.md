@@ -1,54 +1,94 @@
-# RateMyFit-RMF
-RateMyFit - A React Native App 
-=======
-# Welcome to your Expo app 👋
+# 👗 RateMyFit
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+*RateMyFit* is a cross-platform mobile application designed to help fashion-conscious individuals—especially Gen Z and young Millennials in India—receive real-time outfit feedback, AI-powered fashion suggestions, virtual try-ons, and stay updated with trending styles, all within an engaging community-driven platform.
 
-## Get started
+---
 
-1. Install dependencies
+## 📱 About the Project
+
+RateMyFit bridges the gap between personal styling and modern technology by providing:
+
+- Real-time fashion feedback through a social feed
+- AI-based outfit recommendations
+- Virtual try-on for trying clothes before wearing/buying
+- A trend page with curated looks
+- A supportive and interactive fashion community
+
+---
+
+## 🎯 Core Features
+
+- 📸 *Upload Feature*: Users can upload outfit photos and videos with like & comment functionality.
+- 🌟 *Trend Page*: AI and admin-curated trending styles displayed for user inspiration.
+- 🧥 *Try-On Feature*: Upload your photo and an outfit image to generate a realistic try-on preview.
+- 🤖 *AI Chatbot*: ChatGPT-style fashion assistant offering personalized suggestions.
+- 🔐 *Secure Authentication*: Login/signup with Appwrite BaaS integration.
+- 🧑‍🤝‍🧑 *Community Functions*: Likes, comments, profiles, and outfit discovery.
+
+---
+
+## 🧰 Tech Stack
+
+- *Frontend*: React Native (via Expo)
+- *Backend as a Service*: Appwrite
+- *AI Assistant*: Google AI Studio + Custom Prompt Engineering
+- *Image Processing*: React Native libraries for try-on simulation
+- *Version Control*: Git & GitHub
+
+---
+## ⚙ Installation & Setup
+
+Follow these steps to run the project locally on your machine:
+
+1. *Clone the Repository*
+
+   ```bash
+   git clone https://github.com/tanishqkt03/RateMyFit-RMF/
+   cd ratemyfit
+   ```
+2. *Copy Environment Variables*
+
+   Create a .env file by copying the sample file:
+
+
+   ```bash 
+   cp .env.sample .env
+   ```
+
+   Fill in your Appwrite credentials and any required API keys in the .env file.
+
+3. *Install Dependencies*
+
+   Install all the required packages:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+4. *Start the Project*
+
+   Launch the development server using Expo:
 
    ```bash
-    npx expo start
+
+   npx expo start
    ```
+5.  *Run on Device or Emulator*  
 
-In the output, you'll find options to open the app in a
+      Use the QR code in your terminal with Expo Go on your mobile device.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+      Or choose an Android/iOS emulator to run the app.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+      ⚠ Ensure you have Node.js, npm, and Expo CLI installed globally.
 
-## Get a fresh project
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
+Let me know if you want help generating the .env.sample structure too!
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🔗 Contact
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-
+Project by students of CSBB 352  
+For queries, suggestions, or feedback:  
+📧 [tanishqtoliya@gmail.com]  
+📧 [vanshgarg25804@gmail.com] 

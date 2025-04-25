@@ -12,7 +12,7 @@ import {
 import { images } from "../../constants";
 const PostCard = ({ post, onPress }) => (
   <TouchableOpacity style={styles.card} onPress={() => onPress(post)}>
-    <Image source={{ uri: post.image }} style={styles.cardImage} />
+    <Image source={ post.image } style={styles.cardImage} />
     <Text style={styles.cardTitle}>{post.title}</Text>
   </TouchableOpacity>
 );
@@ -65,7 +65,7 @@ export default function trends() {
           <View style={styles.modalContent}>
             <ScrollView>
               <Image
-                source={{ uri: selectedPost?.image }}
+                source={ selectedPost?.image }
                 style={styles.modalImage}
               />
               <Text style={styles.modalTitle}>{selectedPost?.title}</Text>
@@ -158,68 +158,69 @@ const posts = [
     title: " Sustainable and Eco-Friendly Fabrics",
     description:
       "Embracing sustainability, Indian fashion is witnessing a surge in eco-friendly materials like organic cotton, hemp, and bamboo silk. These fabrics not only reduce environmental impact but also offer comfort and versatility.",
-    image: "../../assets/trendImg/ecp1",
+    image: images.img1,
   },
   {
     id: "2",
     title: "Fusion Wear: East Meets West",
     description:"The blend of traditional Indian attire with contemporary Western styles is gaining momentum. Think lehengas paired with crop tops, sarees draped over jeans, or kurtas styled as dresses.",
-       image: "../../assets/trendImg/FusionWear2",
+       image: images.fusion2,
   },
   {
     id: "3",
     title: "Vibrant and Bold Colors",
     description:
       "2025 is witnessing a resurgence of bold and vibrant hues in fashion. From electric oranges and sunny yellows to striking jewel tones like emerald green and sapphire blue, these colors are making strong statements in both traditional and contemporary outfits.",
-    image: "../../assets/trendImg/VibrantBold3",
+    image: images.img3,
   },
   {
     id: "4",
     title: "Minimalist Traditional Wear",
     description:
       "Alongside bold colors, there's a growing appreciation for minimalist designs in traditional wear. Clean lines, subtle embellishments, and muted tones are defining this trend, focusing on the elegance of fabrics like silk and satin.",
-    image: "../../assets/trendImg/minimilistic4",
+    image: images.img4,
   },
   {
     id: "5",
     title: "Bohemian Daydream",
     description:
       "Boho-chic styles are making a significant comeback, characterized by flowy silhouettes, earthy tones, and intricate patterns. This trend celebrates individuality and freedom, often incorporating elements like fringe, embroidery, and layered accessories.",
-    image: "../../assets/trendImg/5",
+    image: images.img5,
   },
   {
     id: "6",
     title: "Elevated Athleisure",
     description:
       "The athleisure trend evolves in 2025, blending comfort with sophistication. Expect to see tailored joggers, chic hoodies, and sleek sneakers becoming staples not just for workouts but also for casual and semi-formal settings.",
-    image: "../../assets/trendImg/Eleveted6",
+    image: images.eleveted,
   },
   {
     id: "7",
     title: "Coastal Cool",
     description:
       "Inspired by beachside aesthetics, the coastal cool trend introduces breezy fabrics, nautical stripes, and relaxed fits into everyday wear. This style emphasizes comfort and simplicity, often featuring light colors and natural materials.",
-    image: "../../assets/trendImg/Coastal7",
+    image: images.costal,
   },
   {
     id: "8",
     title: "Pretty Pastels",
     description:
       "Soft pastel shades are dominating the color palette this season. From mint greens and baby blues to blush pinks and lavender, these hues bring a sense of calm and freshness to outfits, suitable for both daytime and evening wear.",
-    image: "../../assets/trendImg/pastels8",
+    image: images.img8,
   },
   {
     id: "9",
     title: "Statement Accessories",
     description:
       "Accessories are taking center stage in 2025. Oversized earrings, chunky necklaces, and bold handbags are being used to elevate simple outfits. These statement pieces allow individuals to showcase their personality and add a touch of drama to their look.",
-    image: "../../assets/trendImg/accessories9",
+    image: images.img9,
   },
   {
     id: "10",
     title: "Revival of Traditional Crafts",
     description:
       "There's a renewed interest in traditional Indian crafts like block printing, handloom weaving, and embroidery. Designers are incorporating these techniques into modern silhouettes, preserving cultural heritage while appealing to contemporary tastes.",
-    image: "../../assets/trendImg/cultural10",
-  },
+    image:images.img10,
+  }
 ];
+

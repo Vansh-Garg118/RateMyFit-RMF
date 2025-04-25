@@ -6,4 +6,14 @@ import logo from "../assets/images/logo.png";
 import logoSmall from "../assets/images/logo-small.png";
 import empty from "../assets/images/empty.png";
 import rmfchat from "../assets/images/rmfchat.png"
-export default { profile, thumbnail, cards, path, logo, logoSmall, empty, rmfchat };
+import img1 from "../assets/trendsImg/img1.jpeg"
+import img5 from "../assets/trendsImg/5.jpg"
+import fusion2 from "../assets/trendsImg/FusionWear2.jpeg"
+import img3 from "../assets/trendsImg/VibrantBold3.jpg"
+import eleveted from "../assets/trendsImg/Eleveted6.jpg"
+import costal from "../assets/trendsImg/img7.jpeg"
+import img4 from "../assets/trendsImg/minimilistic4.webp"
+import img8 from "../assets/trendsImg/pastels8.webp"
+import img9 from "../assets/trendsImg/img9.jpg"
+import img10 from "../assets/trendsImg/cultural10.webp"
+export default { profile, thumbnail, cards, path, logo, logoSmall, empty, rmfchat,img5,img1,fusion2,eleveted,costal ,img3,img4,img8,img9,img10};
