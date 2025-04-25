@@ -155,72 +155,71 @@ const styles = StyleSheet.create({
 const posts = [
   {
     id: "1",
-    title: "Spring Streetwear 2025",
+    title: " Sustainable and Eco-Friendly Fabrics",
     description:
-      "Bold prints and oversized silhouettes are dominating the spring streetwear scene in 2025. Think graphic tees, cargo pants, and sneakers. This look pairs vibrant graphics with muted tones to create a bold yet wearable ensemble, perfect for urban settings and fashion-forward individuals looking to make a statement.",
-    image: "https://i.ibb.co/zVRbRGrM/istockphoto-1307568521-612x612.jpg",
+      "Embracing sustainability, Indian fashion is witnessing a surge in eco-friendly materials like organic cotton, hemp, and bamboo silk. These fabrics not only reduce environmental impact but also offer comfort and versatility.",
+    image: "../../assets/trendImg/ecp1",
   },
   {
     id: "2",
-    title: "Y2K Revival",
-    description:
-      "Y2K fashion is back with a bang—metallics, butterfly clips, and low-rise jeans are trending hard among Gen Z and influencers. Nostalgic fashion from the early 2000s is reinvented with modern silhouettes, merging kitsch with couture in a playful yet polished way.",
-    image: "https://picsum.photos/seed/${1}/300/200",
+    title: "Fusion Wear: East Meets West",
+    description:"The blend of traditional Indian attire with contemporary Western styles is gaining momentum. Think lehengas paired with crop tops, sarees draped over jeans, or kurtas styled as dresses.",
+       image: "../../assets/trendImg/FusionWear2",
   },
   {
     id: "3",
-    title: "Minimalist Neutrals",
+    title: "Vibrant and Bold Colors",
     description:
-      "Monochrome outfits in beige, cream, and gray are the epitome of chic this season. Pair clean lines with structured accessories. This trend emphasizes simplicity and elegance, drawing inspiration from Scandinavian minimalism and soft tailoring.",
-    image: "https://picsum.photos/seed/${2}/300/200",
+      "2025 is witnessing a resurgence of bold and vibrant hues in fashion. From electric oranges and sunny yellows to striking jewel tones like emerald green and sapphire blue, these colors are making strong statements in both traditional and contemporary outfits.",
+    image: "../../assets/trendImg/VibrantBold3",
   },
   {
     id: "4",
-    title: "Denim on Denim",
+    title: "Minimalist Traditional Wear",
     description:
-      "Denim is eternal. Layer jackets with jeans for a coordinated denim-on-denim look that screams effortless cool. Combine different washes and textures to add depth and personality to this rugged yet refined trend.",
-    image: "https://picsum.photos/seed/${3}/300/200",
+      "Alongside bold colors, there's a growing appreciation for minimalist designs in traditional wear. Clean lines, subtle embellishments, and muted tones are defining this trend, focusing on the elegance of fabrics like silk and satin.",
+    image: "../../assets/trendImg/minimilistic4",
   },
   {
     id: "5",
-    title: "Athleisure Luxe",
+    title: "Bohemian Daydream",
     description:
-      "Blending comfort with style, the athleisure trend includes elevated tracksuits, sleek sneakers, and sporty handbags. Luxurious fabrics like silk-blend jerseys and matte lycra give a high-end feel to otherwise casual looks.",
-    image: "https://picsum.photos/seed/${4}/300/200",
+      "Boho-chic styles are making a significant comeback, characterized by flowy silhouettes, earthy tones, and intricate patterns. This trend celebrates individuality and freedom, often incorporating elements like fringe, embroidery, and layered accessories.",
+    image: "../../assets/trendImg/5",
   },
   {
     id: "6",
-    title: "Sheer Layers",
+    title: "Elevated Athleisure",
     description:
-      "Sheer fabrics layered over bralettes or bold undergarments make a daring and trendy statement for 2025. This trend embraces body positivity and expressive fashion, allowing wearers to play with textures and transparency.",
-    image: "https://picsum.photos/seed/${5}/300/200",
+      "The athleisure trend evolves in 2025, blending comfort with sophistication. Expect to see tailored joggers, chic hoodies, and sleek sneakers becoming staples not just for workouts but also for casual and semi-formal settings.",
+    image: "../../assets/trendImg/Eleveted6",
   },
   {
     id: "7",
-    title: "Sustainable Chic",
+    title: "Coastal Cool",
     description:
-      "Eco-conscious fashion is not just a movement but a trend. Think upcycled fabrics and slow fashion pieces. Designers are combining sustainability with high fashion aesthetics to encourage mindful consumerism without compromising style.",
-    image: "https://picsum.photos/seed/${75}/300/200",
+      "Inspired by beachside aesthetics, the coastal cool trend introduces breezy fabrics, nautical stripes, and relaxed fits into everyday wear. This style emphasizes comfort and simplicity, often featuring light colors and natural materials.",
+    image: "../../assets/trendImg/Coastal7",
   },
   {
     id: "8",
-    title: "Power Suits with a Twist",
+    title: "Pretty Pastels",
     description:
-      "Blazers in bright colors and asymmetrical cuts bring a fresh take to traditional power dressing. This new wave of tailoring emphasizes individuality, strength, and femininity with bold colors and unconventional cuts.",
-    image: "https://picsum.photos/seed/${15}/300/200",
+      "Soft pastel shades are dominating the color palette this season. From mint greens and baby blues to blush pinks and lavender, these hues bring a sense of calm and freshness to outfits, suitable for both daytime and evening wear.",
+    image: "../../assets/trendImg/pastels8",
   },
   {
     id: "9",
-    title: "Futuristic Accessories",
+    title: "Statement Accessories",
     description:
-      "Visors, holographic bags, and metallic belts are making a futuristic splash on runways and street style. These standout pieces act as conversation starters, transforming even basic outfits into high-concept looks.",
-    image: "https://picsum.photos/seed/${53}/300/200",
+      "Accessories are taking center stage in 2025. Oversized earrings, chunky necklaces, and bold handbags are being used to elevate simple outfits. These statement pieces allow individuals to showcase their personality and add a touch of drama to their look.",
+    image: "../../assets/trendImg/accessories9",
   },
   {
     id: "10",
-    title: "Cottagecore Comeback",
+    title: "Revival of Traditional Crafts",
     description:
-      "Florals, flowy fabrics, and romantic aesthetics continue to dominate the dreamy world of cottagecore fashion. Inspired by pastoral life, this trend embraces femininity, comfort, and a return to slower, simpler living.",
-    image: "https://picsum.photos/seed/${85}/300/200",
+      "There's a renewed interest in traditional Indian crafts like block printing, handloom weaving, and embroidery. Designers are incorporating these techniques into modern silhouettes, preserving cultural heritage while appealing to contemporary tastes.",
+    image: "../../assets/trendImg/cultural10",
   },
 ];
