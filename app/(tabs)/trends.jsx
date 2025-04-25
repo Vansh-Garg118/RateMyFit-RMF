@@ -158,7 +158,7 @@ const posts = [
     title: "Spring Streetwear 2025",
     description:
       "Bold prints and oversized silhouettes are dominating the spring streetwear scene in 2025. Think graphic tees, cargo pants, and sneakers. This look pairs vibrant graphics with muted tones to create a bold yet wearable ensemble, perfect for urban settings and fashion-forward individuals looking to make a statement.",
-    image: "https://picsum.photos/seed/${50}/300/200",
+    image: "https://i.ibb.co/zVRbRGrM/istockphoto-1307568521-612x612.jpg",
   },
   {
     id: "2",

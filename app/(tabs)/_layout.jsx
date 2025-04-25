@@ -75,7 +75,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.camplus}
+                icon={icons.like}
                 color={color}
                 name="trends"
                 focused={focused}
